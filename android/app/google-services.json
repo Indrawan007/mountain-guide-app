@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "669337995472",
+    "project_id": "mountain-guide-app-a2189",
+    "storage_bucket": "mountain-guide-app-a2189.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:669337995472:android:17b8ef67c4040fa607b6d5",
+        "android_client_info": {
+          "package_name": "com.example.mountain_guide_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "669337995472-k13s66tsn12nqnhmarcv71ok4hogo3jd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3fCTPWRlwIw5-Qrv67c-4wwpl62sb558"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "669337995472-k13s66tsn12nqnhmarcv71ok4hogo3jd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
