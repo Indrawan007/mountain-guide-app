@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/home.dart';
+import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/edit-profil.dart';
 import 'package:mountain_guide_app/components/card-name.dart';
@@ -55,7 +55,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           context,
                           PageRouteBuilder(
                             pageBuilder: (context, animation1, animation2) =>
-                                Home(),
+                                HomePage(),
                             transitionDuration: Duration(seconds: 0),
                           ),
                         );
@@ -192,7 +192,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(),
+                      pageBuilder: (context, animation1, animation2) => HomePage(),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );

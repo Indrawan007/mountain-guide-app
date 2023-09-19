@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/home.dart';
+import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
 import 'package:mountain_guide_app/components/field-name.dart';
 
@@ -228,7 +228,7 @@ class EditProfil extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(),
+                      pageBuilder: (context, animation1, animation2) => HomePage(),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );

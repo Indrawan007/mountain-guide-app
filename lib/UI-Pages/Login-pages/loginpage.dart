@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/home.dart';
+import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -215,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => Home()),
+                            MaterialPageRoute(builder: (context) => HomePage()),
                           );
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {

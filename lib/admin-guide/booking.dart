@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/home.dart';
+import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
 import 'package:mountain_guide_app/admin-guide/home-admin.dart';
 import 'package:mountain_guide_app/admin-guide/profile.dart';

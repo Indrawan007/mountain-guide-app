@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
+import 'package:mountain_guide_app/controller/SignUpController.dart';
 
-import '../Homa-page/home.dart';
+import '../Homa-page/HomePage.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -12,28 +15,29 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  SignUpController signUpController = Get.find();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   TextEditingController nama = TextEditingController();
-
   TextEditingController alamat = TextEditingController();
-
   TextEditingController nomor = TextEditingController();
-
   TextEditingController email = TextEditingController();
-
   TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQueryData.fromView(WidgetsBinding.instance.window).size.height;
+    double height =
+        MediaQueryData.fromView(WidgetsBinding.instance.window).size.height;
+    bool isValid = false;
+
     return Scaffold(
       backgroundColor: Color(0xffE5E5E5),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints.tightFor(
-            height: height,
-          ),
+      body: ConstrainedBox(
+        constraints: BoxConstraints.tightFor(
+          height: height,
+        ),
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
             child: Container(
@@ -61,7 +65,8 @@ class _SignUpState extends State<SignUp> {
                           onTap: () {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
                             );
                           },
                           child: Text(
@@ -255,6 +260,49 @@ class _SignUpState extends State<SignUp> {
                             color: Color(0xFF000000),
                           ),
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: Obx(() => Icon(
+                                      signUpController.showPassword.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off))),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                top: 15,
+                              ),
+                              fillColor: Color(0xFFF2F5FB),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: 'Password',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Color(0xFFCFCFCF),
+                              )),
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Text(
+                        'Confirm Password',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Container(
+                        width: 295,
+                        height: 42,
+                        child: TextFormField(
+                          controller: password,
+                          cursorColor: Colors.black,
+                          obscureText: true,
+                          style: GoogleFonts.poppins(
+                            color: Color(0xFF000000),
+                          ),
+                          decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(
                                 left: 20,
                                 top: 15,
@@ -277,7 +325,6 @@ class _SignUpState extends State<SignUp> {
                   InkWell(
                     onTap: () async {
                       String message = "";
-                      bool isValid = false;
                       try {
                         final credential = await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
@@ -292,8 +339,10 @@ class _SignUpState extends State<SignUp> {
                             'email': credential.user!.email,
                             'uid': credential.user!.uid,
                           });
-                          isValid = true;
                           message = "Berhasil daftar akun, Silahkan login";
+                          setState(() {
+                            isValid = true;
+                          });
                         } catch (e) {
                           print(e);
                           message = "Gagal daftar akun anda";
@@ -307,9 +356,11 @@ class _SignUpState extends State<SignUp> {
                           message = "Email tidak Valid";
                         }
 
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
-                        if (isValid){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(message)));
+                        if (isValid) {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => HomePage()));
                         }
                       } catch (e) {
                         print(e);
@@ -334,7 +385,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -350,7 +401,8 @@ class _SignUpState extends State<SignUp> {
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
                         child: Text(
@@ -364,6 +416,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),

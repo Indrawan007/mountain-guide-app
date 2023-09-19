@@ -10,12 +10,12 @@ import 'package:mountain_guide_app/UI-Pages/Trip-page/trip-Page.dart';
 import 'package:mountain_guide_app/components/card-mountain.dart';
 import 'package:mountain_guide_app/components/guide-card.dart';
 
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   var data;
   @override
   Widget build(BuildContext context) {
