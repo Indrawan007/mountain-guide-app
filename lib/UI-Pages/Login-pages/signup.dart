@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mountain_guide_app/RouteStates.dart';
+import '../../data/model/User.dart' as model;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
@@ -17,13 +21,6 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   SignUpController signUpController = Get.find();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-  TextEditingController nama = TextEditingController();
-  TextEditingController alamat = TextEditingController();
-  TextEditingController nomor = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,277 +90,339 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 40,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Nama',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: nama,
-                          cursorColor: Colors.black,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Nama',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
+                          SizedBox(height: 8),
+                          Container(
+                              child: Obx(
+                            () => TextFormField(
+                              cursorColor: Colors.black,
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF000000),
                               ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: 'Nama',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        'Alamat',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: alamat,
-                          cursorColor: Colors.black,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 15,
+                                  ),
+                                  fillColor: Color(0xFFF2F5FB),
+                                  filled: true,
+                                  errorText: signUpController.isNotEmpty(
+                                      value: signUpController.user.value.nama),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'Nama',
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Color(0xFFCFCFCF),
+                                  )),
+                              initialValue: signUpController.user.value.nama,
+                              onChanged: (value) {
+                                signUpController.updateUser(signUpController
+                                    .user.value
+                                    .copyWith(nama: value));
+                                log("value ${signUpController.user.value}");
+                              },
+                            ),
+                          )),
+                          SizedBox(height: 24),
+                          Text(
+                            'Alamat',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
+                          SizedBox(height: 8),
+                          Container(
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF000000),
                               ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: 'Alamat',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        'Nomor Telp',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: nomor,
-                          cursorColor: Colors.black,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 15,
+                                  ),
+                                  errorText: signUpController.isNotEmpty(
+                                      value:
+                                          signUpController.user.value.alamat),
+                                  fillColor: Color(0xFFF2F5FB),
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'Alamat',
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Color(0xFFCFCFCF),
+                                  )),
+                              initialValue: signUpController.user.value.alamat,
+                              onChanged: (value) {
+                                signUpController.updateUser(signUpController
+                                    .user.value
+                                    .copyWith(alamat: value));
+                              },
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
-                              ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: 'Nomor Telp',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        'Email',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: email,
-                          cursorColor: Colors.black,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                          SizedBox(height: 24),
+                          Text(
+                            'Nomor Telp',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
+                          SizedBox(height: 8),
+                          Container(
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF000000),
                               ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: 'Email',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        'Password',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: password,
-                          cursorColor: Colors.black,
-                          obscureText: true,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 15,
+                                  ),
+                                  fillColor: Color(0xFFF2F5FB),
+                                  errorText: signUpController.isNotEmpty(
+                                      value: signUpController.user.value.nomor),
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'Nomor Telp',
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Color(0xFFCFCFCF),
+                                  )),
+                              initialValue: signUpController.user.value.nomor,
+                              onChanged: (value) {
+                                signUpController.updateUser(signUpController
+                                    .user.value
+                                    .copyWith(nomor: value));
+                              },
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: Obx(() => Icon(
-                                      signUpController.showPassword.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off))),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
-                              ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: 'Password',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        'Confirm Password',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        width: 295,
-                        height: 42,
-                        child: TextFormField(
-                          controller: password,
-                          cursorColor: Colors.black,
-                          obscureText: true,
-                          style: GoogleFonts.poppins(
-                            color: Color(0xFF000000),
+                          SizedBox(height: 24),
+                          Text(
+                            'Email',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 15,
+                          SizedBox(height: 8),
+                          Container(
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF000000),
                               ),
-                              fillColor: Color(0xFFF2F5FB),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 15,
+                                  ),
+                                  fillColor: Color(0xFFF2F5FB),
+                                  filled: true,
+                                  errorText: signUpController.emailValidator(
+                                      value: signUpController.user.value.email),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'Email',
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Color(0xFFCFCFCF),
+                                  )),
+                              initialValue: signUpController.user.value.email,
+                              onChanged: (value) {
+                                signUpController.updateUser(signUpController
+                                    .user.value
+                                    .copyWith(email: value));
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 24),
+                          Text(
+                            'Password',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              obscureText: signUpController.showPassword.value,
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF000000),
                               ),
-                              hintText: 'Password',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Color(0xFFCFCFCF),
-                              )),
-                        ),
+                              decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        signUpController.showPassword(
+                                            !signUpController
+                                                .showPassword.value);
+                                      },
+                                      icon: Icon(
+                                          signUpController.showPassword.value
+                                              ? Icons.visibility
+                                              : Icons.visibility_off)),
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 15,
+                                  ),
+                                  fillColor: Color(0xFFF2F5FB),
+                                  filled: true,
+                                  errorText: signUpController.passwordValidator(
+                                      value:
+                                          signUpController.user.value.password),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'Password',
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Color(0xFFCFCFCF),
+                                  )),
+                              initialValue:
+                                  signUpController.user.value.password,
+                              onChanged: (value) {
+                                signUpController.updateUser(signUpController
+                                    .user.value
+                                    .copyWith(password: value));
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 24),
+                          Text(
+                            'Confirm Password',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            child: Obx(
+                              () => TextFormField(
+                                cursorColor: Colors.black,
+                                obscureText:
+                                    signUpController.showConfirmPassword.value,
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF000000),
+                                ),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                      left: 20,
+                                      top: 15,
+                                    ),
+                                    errorText:
+                                        signUpController.passwordValidator(
+                                            value: signUpController
+                                                .user.value.confirmPassword),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          signUpController.showConfirmPassword(
+                                              !signUpController
+                                                  .showConfirmPassword.value);
+                                        },
+                                        icon: Icon(signUpController
+                                                .showConfirmPassword.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off)),
+                                    fillColor: Color(0xFFF2F5FB),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: 'Password',
+                                    hintStyle: GoogleFonts.poppins(
+                                      color: Color(0xFFCFCFCF),
+                                    )),
+                                initialValue:
+                                    signUpController.user.value.confirmPassword,
+                                onChanged: (value) {
+                                  signUpController.updateUser(signUpController
+                                      .user.value
+                                      .copyWith(confirmPassword: value));
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: 30),
                   InkWell(
                     onTap: () async {
                       String message = "";
-                      try {
-                        final credential = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                          email: email.text,
-                          password: password.text,
-                        );
+                      var validatorResponse = signUpController
+                          .validateUser(signUpController.user.value.copyWith());
+
+                      if (signUpController.isValid.value == true) {
                         try {
-                          await users.add({
-                            'nama': nama.text,
-                            'alamat': alamat.text,
-                            'nomor': nomor.text,
-                            'email': credential.user!.email,
-                            'uid': credential.user!.uid,
-                          });
-                          message = "Berhasil daftar akun, Silahkan login";
-                          setState(() {
-                            isValid = true;
-                          });
+                          final credential = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                            email: signUpController.user.value.email ?? "",
+                            password: signUpController.user.value.password ?? "",
+                          );
+                          try {
+                            await users.add({
+                              'nama': signUpController.user.value.nama,
+                              'alamat': signUpController.user.value.alamat,
+                              'nomor': signUpController.user.value.nomor,
+                              'email': credential.user?.email ??"",
+                              'uid': credential.user?.uid?? "",
+                            });
+                            message = "Berhasil daftar akun, Silahkan login";
+                            Get.toNamed(homePage);
+                          } catch (e) {
+                            print(e);
+                            message = "Gagal daftar akun anda";
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            message = "Password anda lemah";
+                          } else if (e.code == 'email-already-in-use') {
+                            message = "Email telah digunakan";
+                          } else if (e.code == 'invalid-email') {
+                            message = "Email tidak Valid";
+                          }
+
+                          Get.snackbar('Maaf', message);
                         } catch (e) {
                           print(e);
-                          message = "Gagal daftar akun anda";
                         }
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          message = "Password anda lemah";
-                        } else if (e.code == 'email-already-in-use') {
-                          message = "Email telah digunakan";
-                        } else if (e.code == 'invalid-email') {
-                          message = "Email tidak Valid";
-                        }
-
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(message)));
-                        if (isValid) {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => HomePage()));
-                        }
-                      } catch (e) {
-                        print(e);
+                      } else {
+                        Get.snackbar('Maaf', '$validatorResponse');
                       }
                     },
                     child: Container(

@@ -36,8 +36,8 @@ class mountainguide extends StatelessWidget {
       initialRoute: mainController.isAuthenticated.value ? homePage : loginPage,
       getPages: [
         GetPage(name: homePage, page: () => HomePage()),
-        GetPage(name: loginPage, page: () => LoginPage(),),
-        GetPage(name: signUpPage, page: () => SignUp(),),
+        GetPage(name: loginPage, page: () => LoginPage()),
+        GetPage(name: signUpPage, page: () => SignUp()),
       ],
     );
   }

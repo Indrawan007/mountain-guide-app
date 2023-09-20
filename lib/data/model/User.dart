@@ -6,8 +6,7 @@ class User {
   String? password;
   String? confirmPassword;
 
-  User(
-      {this.nama, this.alamat, this.nomor, this.email, this.password, this.confirmPassword});
+  User({this.nama, this.alamat, this.nomor, this.email, this.password, this.confirmPassword});
 
   User copyWith({
     String? nama,
@@ -25,5 +24,11 @@ class User {
       password:  password?? this.password,
       confirmPassword:  confirmPassword?? this.confirmPassword
     );
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "User({nama = $nama, alamat = $alamat, nomor = $nomor, email = $email, password = $password, confirmPassword = $confirmPassword})";
   }
 }
