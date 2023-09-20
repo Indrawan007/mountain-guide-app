@@ -403,7 +403,7 @@ class _SignUpState extends State<SignUp> {
                               'uid': credential.user?.uid?? "",
                             });
                             message = "Berhasil daftar akun, Silahkan login";
-                            Get.toNamed(homePage);
+                            Get.offAndToNamed(homePage);
                           } catch (e) {
                             print(e);
                             message = "Gagal daftar akun anda";

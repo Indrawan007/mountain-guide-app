@@ -1,19 +1,12 @@
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:mountain_guide_app/data/model/User.dart';
 
 class LoginController extends GetxController {
-    var state = MainState.Loading.obs;
-    var nama = "".obs;
-    var alamat = "".obs;
-    var telphone = "".obs;
-    var email = "".obs;
-    var password = "".obs;
+    final user = User().obs;
+    final showPassword = false.obs;
 
-    signUp(){
-
-    }
 }
 
 enum MainState {

@@ -1,8 +1,15 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
+
+import '../../RouteStates.dart';
+import '../../controller/LoginController.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,9 +17,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool isHiddenPassword = true;
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  LoginController loginController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                        top: 30,
+                        top: 30
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -88,111 +94,113 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 40,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Email',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          width: 295,
-                          height: 42,
-                          child: TextFormField(
-                            controller: email,
-                            cursorColor: Colors.black,
-                            style: GoogleFonts.poppins(
-                              color: Color(0xFF000000),
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Email',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                             ),
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(
-                                  left: 20,
-                                  top: 15,
+                            SizedBox(height: 8),
+                            Container(
+                              child: TextFormField(
+                                initialValue: loginController.user.value.email,
+                                cursorColor: Colors.black,
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF000000),
                                 ),
-                                fillColor: Color(0xFFF2F5FB),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                                hintText: 'Email',
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Color(0xFFCFCFCF),
-                                )),
-                          ),
-                        ),
-                        SizedBox(height: 24),
-                        Text(
-                          'Password',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          width: 295,
-                          height: 42,
-                          child: TextFormField(
-                            controller: password,
-                            cursorColor: Colors.black,
-                            obscureText: isHiddenPassword,
-                            style: GoogleFonts.poppins(
-                              color: Color(0xFF000000),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                      left: 20,
+                                      top: 15,
+                                    ),
+                                    fillColor: Color(0xFFF2F5FB),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: 'Email',
+                                    hintStyle: GoogleFonts.poppins(
+                                      color: Color(0xFFCFCFCF),
+                                    )),
+                                onChanged: (value) {
+                                  loginController.user(loginController
+                                      .user.value
+                                      .copyWith(email: value));
+                                },
+                              ),
                             ),
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(
-                                  left: 20,
-                                  top: 15,
+                            SizedBox(height: 24),
+                            Text(
+                              'Password',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              child: TextFormField(
+                                initialValue: loginController.user.value.password,
+                                cursorColor: Colors.black,
+                                obscureText: loginController.showPassword.value,
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF000000),
                                 ),
-                                fillColor: Color(0xFFF2F5FB),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: InkWell(
-                                  onTap: _togglePasswordView,
-                                  child: Icon(
-                                    Icons.visibility,
-                                    color: Color(0xffFFB173),
-                                  ),
-                                ),
-                                hintText: 'Password',
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Color(0xFFCFCFCF),
-                                )),
-                          ),
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          loginController.showPassword(
+                                              !loginController
+                                                  .showPassword.value);
+                                        },
+                                        icon: Icon(
+                                            loginController.showPassword.value
+                                                ? Icons.visibility
+                                                : Icons.visibility_off)),
+                                    contentPadding: EdgeInsets.only(
+                                      left: 20,
+                                      top: 15,
+                                    ),
+                                    fillColor: Color(0xFFF2F5FB),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: 'Password',
+                                    hintStyle: GoogleFonts.poppins(
+                                      color: Color(0xFFCFCFCF),
+                                    )),
+                                onChanged: (value) {
+                                  loginController.user(loginController
+                                      .user.value
+                                      .copyWith(password: value));
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 10,
+                        left: 32,
+                        right: 32
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(width: 24),
-                          Image.asset(
-                            'assets/images/checkbox.png',
-                            width: 11,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Remember me',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                          SizedBox(width: 75),
                           Text(
                             'Forgot Password?',
                             style: GoogleFonts.poppins(
@@ -207,25 +215,26 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 40),
                     InkWell(
                       onTap: () async {
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                            email: email.text,
-                            password: password.text,
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Email belum terdaftar'),
-                            ));
-                          } else if (e.code == 'wrong-password') {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Password anda salah'),
-                            ));
+                        log("${loginController.user.value}");
+                        if (loginController.user.value.email != null &&
+                            loginController.user.value.password != null &&
+                            loginController.user.value.email?.isNotEmpty ==
+                                true &&
+                            loginController.user.value.password?.isNotEmpty ==
+                                true) {
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: loginController.user.value.email!,
+                              password: loginController.user.value.password!,
+                            );
+                            Get.offAndToNamed(homePage);
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              Get.snackbar("Maaf","Email belum terdaftar");
+                            } else if (e.code == 'wrong-password') {
+                              Get.snackbar("Maaf","Password anda salah");
+                            }
                           }
                         }
                       },
@@ -256,16 +265,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _togglePasswordView() {
-    // if (isHiddenPassword == true) {
-    //   isHiddenPassword = false;
-    // } else {
-    //   isHiddenPassword = true;
-    // }
-    setState(() {
-      isHiddenPassword = !isHiddenPassword;
-    });
   }
 }

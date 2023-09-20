@@ -52,14 +52,6 @@ class SignUpController extends GetxController {
     }
   }
 
-  funShowPassword(bool value) {
-    showPassword(value);
-  }
-
-  funShowConfirmPassword(bool value) {
-    showConfirmPassword(value);
-  }
-
   String? emailValidator({String? value = ""}) {
     if (value?.isEmpty == true || (value != null && !(value.contains('@') == true))) {
       return 'Please enter a valid email address.';
