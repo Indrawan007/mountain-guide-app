@@ -1,12 +1,15 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as usersAuth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
+import 'package:mountain_guide_app/data/Session.dart';
+import 'package:mountain_guide_app/data/model/User.dart';
 
 import '../../RouteStates.dart';
 import '../../controller/LoginController.dart';
@@ -18,6 +21,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginController loginController = Get.find();
+  Session session = Get.find();
+  CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        top: 30
-                      ),
+                      padding: const EdgeInsets.only(top: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -150,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 8),
                             Container(
                               child: TextFormField(
-                                initialValue: loginController.user.value.password,
+                                initialValue:
+                                    loginController.user.value.password,
                                 cursorColor: Colors.black,
                                 obscureText: loginController.showPassword.value,
                                 style: GoogleFonts.poppins(
@@ -193,11 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        left: 32,
-                        right: 32
-                      ),
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 32, right: 32),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -215,7 +217,6 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 40),
                     InkWell(
                       onTap: () async {
-                        log("${loginController.user.value}");
                         if (loginController.user.value.email != null &&
                             loginController.user.value.password != null &&
                             loginController.user.value.email?.isNotEmpty ==
@@ -223,17 +224,30 @@ class _LoginPageState extends State<LoginPage> {
                             loginController.user.value.password?.isNotEmpty ==
                                 true) {
                           try {
-                            await FirebaseAuth.instance
+                            var userCredential = await usersAuth.FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                               email: loginController.user.value.email!,
                               password: loginController.user.value.password!,
                             );
-                            Get.offAndToNamed(homePage);
-                          } on FirebaseAuthException catch (e) {
+
+                            log("USER $userCredential");
+                            // userCredential.user?.uid;
+                            usersCollection
+                                .where("uid",
+                                    isEqualTo: userCredential.user?.uid)
+                                .get()
+                                .then((value) {
+                              if (value.size > 0) {
+                                var userData = value.docs.first;
+                                session.updateUserData(User.fromJson(userData));
+                                Get.offAndToNamed(homePage);
+                              }
+                            });
+                          } on usersAuth.FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
-                              Get.snackbar("Maaf","Email belum terdaftar");
+                              Get.snackbar("Maaf", "Email belum terdaftar");
                             } else if (e.code == 'wrong-password') {
-                              Get.snackbar("Maaf","Password anda salah");
+                              Get.snackbar("Maaf", "Password anda salah");
                             }
                           }
                         }
