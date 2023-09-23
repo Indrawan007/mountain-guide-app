@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:mountain_guide_app/data/model/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +10,7 @@ class Session {
   static const String KEY_NAMA = "KEY_NAMA";
   static const String KEY_ALAMAT = "KEY_ALAMAT";
   static const String KEY_UID = "KEY_UID";
+  static const String KEY_NOMOR = "KEY_NOMOR";
 
   Future<void> updateUserData(User user) async {
     final SharedPreferences sharedPreferences = await pref;
@@ -15,6 +18,10 @@ class Session {
     sharedPreferences.setString(KEY_NAMA, user.nama ?? "");
     sharedPreferences.setString(KEY_ALAMAT, user.alamat ?? "");
     sharedPreferences.setString(KEY_UID, user.uid ?? "");
+    sharedPreferences.setString(KEY_NOMOR, user.nomor ?? "");
+
+    // var nama = await readUserNama();
+    // log("SESSION NAMA $nama");
   }
 
   Future<void> remove() async {
@@ -40,5 +47,10 @@ class Session {
   Future<String?> readUserUid() async {
     final SharedPreferences sharedPreferences = await pref;
     return sharedPreferences.getString(KEY_UID);
+  }
+
+  Future<String?> readUserNomor() async {
+    final SharedPreferences sharedPreferences = await pref;
+    return sharedPreferences.getString(KEY_NOMOR);
   }
 }

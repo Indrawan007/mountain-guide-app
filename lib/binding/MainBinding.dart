@@ -7,15 +7,19 @@ import 'package:mountain_guide_app/controller/LoginController.dart';
 import 'package:mountain_guide_app/controller/MainController.dart';
 import 'package:mountain_guide_app/controller/SignUpController.dart';
 
+import '../controller/HomeController.dart';
+import '../controller/ProfileController.dart';
 import '../data/Session.dart';
 
 class MainBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<Session>(() => Session());
+    Get.put<Session>(Session());
 
     Get.put<LoginController>(LoginController());
     Get.put<SignUpController>(SignUpController());
+    Get.put<HomeController>(HomeController());
+    Get.put<ProfileController>(ProfileController());
     Get.lazyPut<MainController>(()=>MainController());
   }
 

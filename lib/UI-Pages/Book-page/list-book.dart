@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mountain_guide_app/RouteStates.dart';
 import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
 
@@ -11,66 +14,18 @@ class ListBook extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          // leading: Padding(
-          //   padding: const EdgeInsets.only(
-          //     bottom: 60,
-          //     left: 15,
-          //   ),
-          //   child: IconButton(
-          //     onPressed: () {
-          //       Navigator.pushReplacement(
-          //         context,
-          //         PageRouteBuilder(
-          //           pageBuilder: (context, animation1, animation2) => Home(),
-          //           transitionDuration: Duration(seconds: 0),
-          //         ),
-          //       );
-          //     },
-          //     icon: Icon(
-          //       Icons.arrow_back,
-          //       color: Colors.black,
-          //     ),
-          //   ),
-          // ),
           elevation: 0.5,
           toolbarHeight: 100,
           backgroundColor: Colors.white,
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //     top: 80,
-              //     left: 165,
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         'List Book',
-              //         style: GoogleFonts.poppins(
-              //           color: Colors.black,
-              //           fontSize: 16,
-              //           fontWeight: FontWeight.bold,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
               TabBar(
                 isScrollable: true,
                 indicatorColor: Colors.black,
                 unselectedLabelColor: Color(0XFFCFCFCF),
                 labelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.label,
-
-                // indicator: BoxDecoration(color: Colors.blue, boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.2),
-                //     blurRadius: 4,
-                //     offset: Offset(0, 2),
-                //   )
-                // ]),
 
                 tabs: [
                   Tab(
@@ -635,14 +590,7 @@ class ListBook extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            HomePage(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
+                    Get.offAndToNamed(homePage);
                   },
                   child: Image.asset(
                     'assets/images/nav_home.png',
@@ -658,7 +606,6 @@ class ListBook extends StatelessWidget {
                   top: 18.0,
                   bottom: 8,
                 ),
-
                 child: Image.asset(
                   'assets/images/nav_book_on.png',
                   width: 20,
@@ -675,14 +622,7 @@ class ListBook extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            ProfilPage(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
+                    Get.offAndToNamed(profilePage);
                   },
                   child: Image.asset(
                     'assets/images/nav_profil.png',
