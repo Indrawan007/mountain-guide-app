@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import 'package:get/get.dart';
+import '../RouteStates.dart';
 import '../data/model/User.dart';
 
 class SignUpController extends GetxController {
@@ -8,6 +11,7 @@ class SignUpController extends GetxController {
   final showPassword = false.obs;
   final showConfirmPassword = false.obs;
   final isValid = false.obs;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   updateUser(User newUser) {
     user(newUser);
@@ -81,5 +85,48 @@ class SignUpController extends GetxController {
       }
     }
     return null;
+  }
+
+  Future<void> signUp()async {
+    String message = "";
+    var validatorResponse = validateUser(user.value.copyWith());
+
+    if (isValid.value == true) {
+      try {
+        final credential = await firebaseUser.FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+          email: user.value.email ?? "",
+          password: user.value.password ?? "",
+        );
+        try {
+          await users.add({
+            'nama': user.value.nama,
+            'alamat': user.value.alamat,
+            'nomor': user.value.nomor,
+            'email': credential.user?.email ??"",
+            'uid': credential.user?.uid?? "",
+          });
+          message = "Berhasil daftar akun, Silahkan login";
+          Get.offAndToNamed(homePage);
+        } catch (e) {
+          print(e);
+          message = "Gagal daftar akun anda";
+        }
+      } on firebaseUser.FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          message = "Password anda lemah";
+        } else if (e.code == 'email-already-in-use') {
+          message = "Email telah digunakan";
+        } else if (e.code == 'invalid-email') {
+          message = "Email tidak Valid";
+        }
+
+        Get.snackbar('Maaf', message);
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      Get.snackbar('Maaf', '$validatorResponse');
+    }
   }
 }

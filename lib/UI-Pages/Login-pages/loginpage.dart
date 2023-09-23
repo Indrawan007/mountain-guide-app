@@ -21,9 +21,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginController loginController = Get.find();
-  Session session = Get.find();
-  CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(width: 35),
                           InkWell(
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUp()),
-                              );
+                              Get.offAndToNamed(signUpPage);
                             },
                             child: Text(
                               'Sign Up',
@@ -216,42 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 40),
                     InkWell(
-                      onTap: () async {
-                        if (loginController.user.value.email != null &&
-                            loginController.user.value.password != null &&
-                            loginController.user.value.email?.isNotEmpty ==
-                                true &&
-                            loginController.user.value.password?.isNotEmpty ==
-                                true) {
-                          try {
-                            var userCredential = await usersAuth.FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                              email: loginController.user.value.email!,
-                              password: loginController.user.value.password!,
-                            );
-
-                            log("USER $userCredential");
-                            // userCredential.user?.uid;
-                            usersCollection
-                                .where("uid",
-                                    isEqualTo: userCredential.user?.uid)
-                                .get()
-                                .then((value) {
-                              if (value.size > 0) {
-                                var userData = value.docs.first;
-                                session.updateUserData(User.fromJson(userData));
-                                Get.offAndToNamed(homePage);
-                              }
-                            });
-                          } on usersAuth.FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              Get.snackbar("Maaf", "Email belum terdaftar");
-                            } else if (e.code == 'wrong-password') {
-                              Get.snackbar("Maaf", "Password anda salah");
-                            }
-                          }
-                        }
-                      },
+                      onTap: () => loginController.login(),
                       child: Container(
                         width: 295,
                         height: 50,

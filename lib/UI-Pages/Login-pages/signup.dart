@@ -20,7 +20,6 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   SignUpController signUpController = Get.find();
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +59,7 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
+                            Get.offAndToNamed(loginPage);
                           },
                           child: Text(
                             'Sign In',
@@ -382,49 +377,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   SizedBox(height: 30),
                   InkWell(
-                    onTap: () async {
-                      String message = "";
-                      var validatorResponse = signUpController
-                          .validateUser(signUpController.user.value.copyWith());
-
-                      if (signUpController.isValid.value == true) {
-                        try {
-                          final credential = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                            email: signUpController.user.value.email ?? "",
-                            password: signUpController.user.value.password ?? "",
-                          );
-                          try {
-                            await users.add({
-                              'nama': signUpController.user.value.nama,
-                              'alamat': signUpController.user.value.alamat,
-                              'nomor': signUpController.user.value.nomor,
-                              'email': credential.user?.email ??"",
-                              'uid': credential.user?.uid?? "",
-                            });
-                            message = "Berhasil daftar akun, Silahkan login";
-                            Get.offAndToNamed(homePage);
-                          } catch (e) {
-                            print(e);
-                            message = "Gagal daftar akun anda";
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            message = "Password anda lemah";
-                          } else if (e.code == 'email-already-in-use') {
-                            message = "Email telah digunakan";
-                          } else if (e.code == 'invalid-email') {
-                            message = "Email tidak Valid";
-                          }
-
-                          Get.snackbar('Maaf', message);
-                        } catch (e) {
-                          print(e);
-                        }
-                      } else {
-                        Get.snackbar('Maaf', '$validatorResponse');
-                      }
-                    },
+                    onTap: () => signUpController.signUp(),
                     child: Container(
                       width: 295,
                       height: 50,

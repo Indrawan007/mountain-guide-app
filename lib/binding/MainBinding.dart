@@ -12,10 +12,11 @@ import '../data/Session.dart';
 class MainBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SignUpController>(()=>SignUpController());
-    Get.lazyPut<LoginController>(()=>LoginController());
-    Get.lazyPut<MainController>(()=>MainController());
     Get.lazyPut<Session>(() => Session());
+
+    Get.put<LoginController>(LoginController());
+    Get.put<SignUpController>(SignUpController());
+    Get.lazyPut<MainController>(()=>MainController());
   }
 
 }
