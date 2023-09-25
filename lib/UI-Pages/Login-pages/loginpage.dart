@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
 import 'package:mountain_guide_app/data/Session.dart';
 import 'package:mountain_guide_app/data/model/User.dart';
 
 import '../../RouteStates.dart';
 import '../../controller/LoginController.dart';
+import '../../style/Theme.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -111,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                 initialValue: loginController.user.value.email,
                                 cursorColor: Colors.black,
                                 style: GoogleFonts.poppins(
-                                  color: Color(0xFF000000),
+                                  color: colorPrimaryText,
                                 ),
                                 decoration: InputDecoration(
                                     contentPadding: EdgeInsets.only(
@@ -152,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                 cursorColor: Colors.black,
                                 obscureText: loginController.showPassword.value,
                                 style: GoogleFonts.poppins(
-                                  color: Color(0xFF000000),
+                                  color: colorPrimaryText,
                                 ),
                                 decoration: InputDecoration(
                                     suffixIcon: IconButton(

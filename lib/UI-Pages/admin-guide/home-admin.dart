@@ -1,19 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
-import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
-import 'package:mountain_guide_app/components/card-mountain.dart';
-import 'package:mountain_guide_app/components/guide-card.dart';
+import 'package:mountain_guide_app/UI-Pages/admin-guide/ProfileAdmin.dart';
+import '../../components/card-mountain.dart';
+import 'booking.dart';
 
-class tripPage extends StatelessWidget {
+class HomeAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEFF1F3),
+      backgroundColor: const Color(0xffEFF1F3),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -49,41 +45,16 @@ class tripPage extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 40),
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                HomePage(),
-                            transitionDuration: Duration(seconds: 0),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Daftar Gunung',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFCFCFCF),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 35),
-                    Text(
-                      'Trip Yang Tersedia',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                SizedBox(height: 30),
+                Text(
+                  'Trip Saya',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -99,63 +70,23 @@ class tripPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tour Guide Avaliable',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'See All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff395995),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      GuideCard(
-                          imageGuide: 'assets/images/avatar.png',
-                          guideName: 'Risaldi M',
-                          rangeGuide: '(800Km)',
-                          profileName: 'View Profile'),
-                      SizedBox(width: 16),
-                      GuideCard(
-                          imageGuide: 'assets/images/avatar.png',
-                          guideName: 'Risaldi M',
-                          rangeGuide: '(800Km)',
-                          profileName: 'View Profile'),
-                      SizedBox(width: 16),
-                      GuideCard(
-                          imageGuide: 'assets/images/avatar.png',
-                          guideName: 'Risaldi M',
-                          rangeGuide: '(800Km)',
-                          profileName: 'View Profile'),
-                      SizedBox(width: 16),
-                      GuideCard(
-                          imageGuide: 'assets/images/avatar.png',
-                          guideName: 'Risaldi M',
-                          rangeGuide: '(800Km)',
-                          profileName: 'View Profile'),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30),
               ],
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text(
+          'Tambah Trip',
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xffFFB173),
+        icon: const Icon(Icons.add_box),
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: GoogleFonts.poppins(
@@ -199,7 +130,7 @@ class tripPage extends StatelessWidget {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          ListBook(),
+                          adminBook(),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );
@@ -225,7 +156,7 @@ class tripPage extends StatelessWidget {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          ProfilPage(),
+                          ProfilAdmin(),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );

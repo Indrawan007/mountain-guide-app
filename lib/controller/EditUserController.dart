@@ -14,13 +14,13 @@ import 'package:mountain_guide_app/style/Theme.dart';
 import '../data/Session.dart';
 import '../data/model/User.dart';
 
-class ProfileController extends GetxController {
+class EditUserController {
   Session session = Get.find();
   var oldEmail = "".obs;
   var password = "".obs;
   var userInfo = User().obs;
   CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
+  FirebaseFirestore.instance.collection('users');
   var firestoreDb = FirebaseFirestore.instance;
   final isValid = false.obs;
 
@@ -37,19 +37,19 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updateUser(
-    User updatedUser,
-  ) async {
+      User updatedUser,
+      ) async {
     log("updated user ${updatedUser}");
 
     var listUser =
-        await usersCollection.where("uid", isEqualTo: updatedUser.uid).get();
+    await usersCollection.where("uid", isEqualTo: updatedUser.uid).get();
 
     showModalBottomSheet(
       context: Get.context!,
       isScrollControlled: true,
       builder: (context) {
         return Obx(
-          () => Container(
+              () => Container(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24, top: 24),
             child: Column(
@@ -72,17 +72,17 @@ class ProfileController extends GetxController {
                     try {
                       var credential = await Firebase.FirebaseAuth.instance
                           .signInWithEmailAndPassword(
-                              email: oldEmail.value,
-                              password: password.value);
+                          email: oldEmail.value,
+                          password: password.value);
                       if (credential.user?.uid.isNotEmpty == true) {
                         if (listUser.docs.isNotEmpty) {
                           firestoreDb.runTransaction((transaction) async {
                             await Firebase.FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
-                                    email: oldEmail.value,
-                                    password: password.value)
+                                email: oldEmail.value,
+                                password: password.value)
                                 .then((value) {
-                                  log("oldEmail ${oldEmail.value} new ${userInfo.value.email}");
+                              log("oldEmail ${oldEmail.value} new ${userInfo.value.email}");
                               if (oldEmail.value != updatedUser.email) {
                                 log("updated email too");
                                 value.user?.updateEmail(updatedUser.email!);

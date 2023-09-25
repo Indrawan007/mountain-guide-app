@@ -56,37 +56,6 @@ class SignUpController extends GetxController {
     }
   }
 
-  String? emailValidator({String? value = ""}) {
-    if (value?.isEmpty == true || (value != null && !(value.contains('@') == true))) {
-      return 'Please enter a valid email address.';
-    }
-    return null;
-  }
-
-  String? userNameValidator({String? value = ""}) {
-    if (value?.isEmpty == true || value!.length < 4) {
-      return 'Password must be at least 4 characters long.';
-    }
-    return null;
-  }
-
-  String? isNotEmpty({String? value = ""}) {
-    if ( value?.isEmpty == true ||
-        value.isBlank == true) {
-      return 'Tidak Boleh Kosong';
-    }
-    return null;
-  }
-
-  String? passwordValidator({String? value = ""}) {
-    if (value != null) {
-      if(value.isEmpty == true || value!.length < 7){
-        return 'Password must be at least 7 characters long.';
-      }
-    }
-    return null;
-  }
-
   Future<void> signUp()async {
     String message = "";
     var validatorResponse = validateUser(user.value.copyWith());

@@ -5,13 +5,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mountain_guide_app/RouteStates.dart';
+import 'package:mountain_guide_app/util/Validator.dart';
 import '../../data/model/User.dart' as model;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
 import 'package:mountain_guide_app/controller/SignUpController.dart';
 
-import '../Homa-page/HomePage.dart';
+import '../../style/Theme.dart';
+import '../HomePage/HomePage.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -105,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                             () => TextFormField(
                               cursorColor: Colors.black,
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF000000),
+                                color: colorPrimaryText,
                               ),
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(
@@ -114,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   fillColor: Color(0xFFF2F5FB),
                                   filled: true,
-                                  errorText: signUpController.isNotEmpty(
+                                  errorText: Validator.isNotEmpty(
                                       value: signUpController.user.value.nama),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -147,14 +149,14 @@ class _SignUpState extends State<SignUp> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF000000),
+                                color: colorPrimaryText,
                               ),
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(
                                     left: 20,
                                     top: 15,
                                   ),
-                                  errorText: signUpController.isNotEmpty(
+                                  errorText: Validator.isNotEmpty(
                                       value:
                                           signUpController.user.value.alamat),
                                   fillColor: Color(0xFFF2F5FB),
@@ -189,7 +191,7 @@ class _SignUpState extends State<SignUp> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF000000),
+                                color: colorPrimaryText,
                               ),
                               keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
@@ -198,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                                     top: 15,
                                   ),
                                   fillColor: Color(0xFFF2F5FB),
-                                  errorText: signUpController.isNotEmpty(
+                                  errorText: Validator.isNotEmpty(
                                       value: signUpController.user.value.nomor),
                                   filled: true,
                                   border: OutlineInputBorder(
@@ -231,7 +233,7 @@ class _SignUpState extends State<SignUp> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF000000),
+                                color: colorPrimaryText,
                               ),
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
@@ -241,7 +243,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   fillColor: Color(0xFFF2F5FB),
                                   filled: true,
-                                  errorText: signUpController.emailValidator(
+                                  errorText: Validator.emailValidator(
                                       value: signUpController.user.value.email),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -274,7 +276,7 @@ class _SignUpState extends State<SignUp> {
                               cursorColor: Colors.black,
                               obscureText: signUpController.showPassword.value,
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF000000),
+                                color: colorPrimaryText,
                               ),
                               decoration: InputDecoration(
                                   suffixIcon: IconButton(
@@ -293,7 +295,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   fillColor: Color(0xFFF2F5FB),
                                   filled: true,
-                                  errorText: signUpController.passwordValidator(
+                                  errorText: Validator.passwordValidator(
                                       value:
                                           signUpController.user.value.password),
                                   border: OutlineInputBorder(
@@ -330,7 +332,7 @@ class _SignUpState extends State<SignUp> {
                                 obscureText:
                                     signUpController.showConfirmPassword.value,
                                 style: GoogleFonts.poppins(
-                                  color: Color(0xFF000000),
+                                  color: colorPrimaryText,
                                 ),
                                 decoration: InputDecoration(
                                     contentPadding: EdgeInsets.only(
@@ -338,7 +340,7 @@ class _SignUpState extends State<SignUp> {
                                       top: 15,
                                     ),
                                     errorText:
-                                        signUpController.passwordValidator(
+                                        Validator.passwordValidator(
                                             value: signUpController
                                                 .user.value.confirmPassword),
                                     suffixIcon: IconButton(
@@ -411,11 +413,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                          );
+                          Get.toNamed(loginPage);
                         },
                         child: Text(
                           'Login',

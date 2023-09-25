@@ -7,10 +7,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
-import 'package:mountain_guide_app/UI-Pages/Profil-page/edit-profil.dart';
+import 'package:mountain_guide_app/UI-Pages/Profil-page/EditProfile.dart';
 import 'package:mountain_guide_app/components/card-name.dart';
+import 'package:mountain_guide_app/controller/EditUserController.dart';
 import 'package:mountain_guide_app/controller/ProfileController.dart';
 
 import '../../RouteStates.dart';
@@ -20,6 +21,7 @@ class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProfileController profileController = Get.find();
+    EditUserController editUserController = Get.find();
     profileController.setUserInfo();
 
     return Scaffold(
@@ -64,6 +66,7 @@ class ProfilPage extends StatelessWidget {
                 SizedBox(height: 35),
                 InkWell(
                   onTap: (() {
+                    editUserController.userInfo(profileController.userInfo.value.copyWith());
                     Get.toNamed(editProfile);
                   }),
                   child: Container(

@@ -8,12 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:mountain_guide_app/RouteStates.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/MountainPage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
-import 'package:mountain_guide_app/UI-Pages/Trip-page/trip-Page.dart';
 import 'package:mountain_guide_app/components/card-mountain.dart';
 import 'package:mountain_guide_app/components/guide-card.dart';
+import 'package:mountain_guide_app/style/Theme.dart';
 
 import '../../controller/HomeController.dart';
+import 'Trip-page/trip-Page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   var data;
+  var tabPages = [MountainPage(), TripPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -66,105 +69,37 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 40),
                 Row(
                   children: [
-                    Text(
-                      'Daftar Gunung',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                    GestureDetector(
+                      onTap: () {
+                        homeController.indexTabPages(0);
+                      },
+                      child: Text(
+                        'Daftar Gunung',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: homeController.indexTabPages.value == 0 ? colorPrimaryText : colorDisableText,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 35),
-                    // InkWell(
-                    //   onTap: () {
-                    //     Navigator.pushReplacement(
-                    //       context,
-                    //       PageRouteBuilder(
-                    //         pageBuilder: (context, animation1, animation2) =>
-                    //             tripPage(),
-                    //         transitionDuration: Duration(seconds: 0),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: Text(
-                    //     'Trip Yang Tersedia',
-                    //     style: GoogleFonts.poppins(
-                    //       fontSize: 16,
-                    //       fontWeight: FontWeight.w600,
-                    //       color: Color(0xFFCFCFCF),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardMountain(
-                      imageUrl: 'assets/images/image1.png',
-                      mountainName: 'Gunung Bawakaraeng',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                    CardMountain(
-                      imageUrl: 'assets/images/image2.png',
-                      mountainName: 'Gunung Lompobattang',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardMountain(
-                      imageUrl: 'assets/images/image3.png',
-                      mountainName: 'Gunung Lompobattang',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                    CardMountain(
-                      imageUrl: 'assets/images/image4.png',
-                      mountainName: 'Gunung Lompobattang',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardMountain(
-                      imageUrl: 'assets/images/image5.png',
-                      mountainName: 'Gunung Lompobattang',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                    CardMountain(
-                      imageUrl: 'assets/images/image6.png',
-                      mountainName: 'Gunung Lompobattang',
-                      mountainMdpl: '1080 Mdpl',
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tour Guide Avaliable',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'See All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff395995),
+                    GestureDetector(
+                      onTap: () {
+                        homeController.indexTabPages(1);
+                      },
+                      child: Text(
+                        'Trip Yang Tersedia',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: homeController.indexTabPages.value == 1 ? colorPrimaryText : colorDisableText,
+                        ),
                       ),
                     ),
                   ],
+                ),
+                Container(
+                  child: tabPages[homeController.indexTabPages.value],
                 ),
                 SizedBox(height: 18),
                 SingleChildScrollView(

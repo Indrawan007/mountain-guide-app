@@ -5,14 +5,13 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/state_manager.dart';
 import 'package:mountain_guide_app/RouteStates.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/HomePage.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/Trip-page/trip-Page.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
-import 'package:mountain_guide_app/UI-Pages/Profil-page/edit-profil.dart';
+import 'package:mountain_guide_app/UI-Pages/Profil-page/EditProfile.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
-import 'package:mountain_guide_app/UI-Pages/Trip-page/trip-details.dart';
 import 'package:mountain_guide_app/UI-Pages/main-page.dart';
-import 'package:mountain_guide_app/admin-guide/home-admin.dart';
 import 'package:mountain_guide_app/controller/MainController.dart';
 import 'package:mountain_guide_app/data/Session.dart';
 import 'firebase_options.dart';
@@ -46,7 +45,8 @@ class mountainguide extends StatelessWidget {
         GetPage(name: signUpPage, page: () => SignUp()),
         GetPage(name: profilePage, page: () => ProfilPage()),
         GetPage(name: listbookPage, page: () => ListBook()),
-        GetPage(name: editProfile, page: () => EditProfil()),
+        GetPage(name: editProfile, page: () => EditProfile()),
+        GetPage(name: tripPage, page: () => TripPage()),
       ],
     );
   }

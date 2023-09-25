@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
 import 'package:mountain_guide_app/controller/MainController.dart';
 import 'package:mountain_guide_app/style/Theme.dart';
@@ -15,6 +14,7 @@ import '../RouteStates.dart';
 import '../components/card-mountain.dart';
 import '../components/guide-card.dart';
 import '../controller/HomeController.dart';
+import 'HomePage/HomePage.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});

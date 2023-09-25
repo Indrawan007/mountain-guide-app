@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mountain_guide_app/RouteStates.dart';
 import 'package:mountain_guide_app/UI-Pages/Book-page/list-book.dart';
-import 'package:mountain_guide_app/UI-Pages/Homa-page/HomePage.dart';
+import 'package:mountain_guide_app/UI-Pages/HomePage/HomePage.dart';
 import 'package:mountain_guide_app/UI-Pages/Login-pages/loginpage.dart';
-import 'package:mountain_guide_app/UI-Pages/Profil-page/edit-profil.dart';
-import 'package:mountain_guide_app/admin-guide/booking.dart';
-import 'package:mountain_guide_app/admin-guide/edit-admin.dart';
-import 'package:mountain_guide_app/admin-guide/home-admin.dart';
+import 'package:mountain_guide_app/UI-Pages/Profil-page/EditProfile.dart';
 import 'package:mountain_guide_app/components/card-name.dart';
-import 'package:mountain_guide_app/components/field-name.dart';
+import 'package:mountain_guide_app/components/MountainTextField.dart';
+
+import 'booking.dart';
+import 'edit-admin.dart';
+import 'home-admin.dart';
 
 class ProfilAdmin extends StatelessWidget {
   @override
@@ -67,14 +71,7 @@ class ProfilAdmin extends StatelessWidget {
               SizedBox(height: 35),
               InkWell(
                 onTap: (() {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          EditProfil(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
+                  Get.toNamed(editProfile);
                 }),
                 child: InkWell(
                   onTap: () {

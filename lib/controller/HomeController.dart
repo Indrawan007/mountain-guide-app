@@ -11,6 +11,7 @@ import '../data/Session.dart';
 class HomeController extends GetxController {
   Session session = Get.find();
   var userInfo = User().obs;
+  var indexTabPages = 0.obs;
 
   // FirebaseAuth.instance.userChanges().listen((User? user) {
   // if (user == null) {

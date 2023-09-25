@@ -11,6 +11,7 @@ class Session {
   static const String KEY_ALAMAT = "KEY_ALAMAT";
   static const String KEY_UID = "KEY_UID";
   static const String KEY_NOMOR = "KEY_NOMOR";
+  static const String KEY_CREDENTIAL = "KEY_CREDENTIAL";
 
   Future<void> updateUserData(User user) async {
     final SharedPreferences sharedPreferences = await pref;
@@ -52,5 +53,10 @@ class Session {
   Future<String?> readUserNomor() async {
     final SharedPreferences sharedPreferences = await pref;
     return sharedPreferences.getString(KEY_NOMOR);
+  }
+
+  Future<String?> readUserCredential() async {
+    final SharedPreferences sharedPreferences = await pref;
+    return sharedPreferences.getString(KEY_CREDENTIAL);
   }
 }
