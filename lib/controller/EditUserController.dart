@@ -9,6 +9,8 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain_guide_app/RouteStates.dart';
 import 'package:mountain_guide_app/components/MountainTextField.dart';
+import 'package:mountain_guide_app/controller/MainController.dart';
+import 'package:mountain_guide_app/controller/ProfileController.dart';
 import 'package:mountain_guide_app/style/Theme.dart';
 
 import '../data/Session.dart';
@@ -23,6 +25,7 @@ class EditUserController {
   FirebaseFirestore.instance.collection('users');
   var firestoreDb = FirebaseFirestore.instance;
   final isValid = false.obs;
+  ProfileController profileController = Get.find();
 
   Future<void> setUserInfo() async {
     var nama = await session.readUserNama();
@@ -33,7 +36,7 @@ class EditUserController {
 
     userInfo(userInfo.value.copyWith(
         nama: nama, alamat: alamat, uid: uid, email: email, nomor: nomor));
-    log("USER info ${userInfo.value}");
+    log("USER info editController${userInfo.value}");
   }
 
   Future<void> updateUser(
@@ -198,6 +201,7 @@ class EditUserController {
       if (value.size > 0) {
         var userData = value.docs.first;
         session.updateUserData(User.fromJson(userData));
+        profileController.setUserInfo();
       }
     });
   }

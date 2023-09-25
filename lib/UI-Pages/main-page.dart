@@ -22,20 +22,20 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.find();
-    MainController mainController = Get.find();
 
     homeController.setUserInfo();
     var listPage = [HomePage(), ListBook(), ProfilPage()];
+    log("nilai Index + ${homeController.indexMenu.value}");
 
     return Scaffold(
       body:  Obx(
-            () => listPage.elementAt(mainController.indexMenu.value),
+            () => listPage.elementAt(homeController.indexMenu.value),
       ),
       bottomNavigationBar: Obx(
           () => BottomNavigationBar(
           onTap: (value) {
             log("nilai Index + ${value}");
-            mainController.indexMenu(value);
+            homeController.indexMenu(value);
           },
           selectedLabelStyle: GoogleFonts.poppins(
             color: colorPrimaryText,
@@ -51,18 +51,18 @@ class MainPage extends StatelessWidget {
           unselectedItemColor: colorDisableText,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          currentIndex: mainController.indexMenu.value,
+          currentIndex: homeController.indexMenu.value,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: mainController.indexMenu.value == 0 ? Icon(Icons.home, color: colorPrimaryText,) : Icon(Icons.home, color: colorDisableText),
+              icon: homeController.indexMenu.value == 0 ? Icon(Icons.home, color: colorPrimaryText,) : Icon(Icons.home, color: colorDisableText),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: mainController.indexMenu.value == 1 ? Icon(Icons.book, color: colorPrimaryText,) : Icon(Icons.book, color: colorDisableText),
+              icon: homeController.indexMenu.value == 1 ? Icon(Icons.book, color: colorPrimaryText,) : Icon(Icons.book, color: colorDisableText),
               label: 'Booking',
             ),
             BottomNavigationBarItem(
-              icon: mainController.indexMenu.value == 2 ? Icon(Icons.account_circle, color: colorPrimaryText,) : Icon(Icons.account_circle, color: colorDisableText),
+              icon: homeController.indexMenu.value == 2 ? Icon(Icons.account_circle, color: colorPrimaryText,) : Icon(Icons.account_circle, color: colorDisableText),
               label: 'Profil',
             ),
           ],

@@ -33,20 +33,19 @@ class mountainguide extends StatelessWidget {
     final mainController = Get.put(MainController());
     mainController.checkUser();
 
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialBinding: MainBinding(),
       initialRoute: mainController.isAuthenticated.value ? mainPage : loginPage,
       getPages: [
-        GetPage(name: homePage, page: () => HomePage()),
-        GetPage(name: mainPage, page: () => MainPage()),
-        GetPage(name: loginPage, page: () => LoginPage()),
-        GetPage(name: signUpPage, page: () => SignUp()),
-        GetPage(name: profilePage, page: () => ProfilPage()),
-        GetPage(name: listbookPage, page: () => ListBook()),
-        GetPage(name: editProfile, page: () => EditProfile()),
-        GetPage(name: tripPage, page: () => TripPage()),
+        GetPage(name: homePage, page: () => HomePage(), binding: MainBinding()),
+        GetPage(name: mainPage, page: () => MainPage(), binding: MainBinding()),
+        GetPage(name: loginPage, page: () => LoginPage(), binding: MainBinding()),
+        GetPage(name: signUpPage, page: () => SignUp(), binding: MainBinding()),
+        GetPage(name: profilePage, page: () => ProfilPage(), binding: MainBinding()),
+        GetPage(name: listbookPage, page: () => ListBook(), binding: MainBinding()),
+        GetPage(name: editProfile, page: () => EditProfile(), binding: MainBinding()),
+        GetPage(name: tripPage, page: () => TripPage(), binding: MainBinding()),
       ],
     );
   }

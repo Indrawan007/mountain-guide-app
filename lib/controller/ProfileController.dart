@@ -33,7 +33,7 @@ class ProfileController extends GetxController {
 
     userInfo(userInfo.value.copyWith(
         nama: nama, alamat: alamat, uid: uid, email: email, nomor: nomor));
-    log("USER info ${userInfo.value}");
+    log("USER info ProfileController ${userInfo.value}");
   }
 
   Future<void> updateUser(
@@ -96,8 +96,7 @@ class ProfileController extends GetxController {
                             oldEmail("");
                             password("");
                             getUserByUid();
-                            Get.back();
-                            Get.back();
+                            Get.offAllNamed(mainPage);
                             Get.snackbar(
                                 "Profile", "Profile berhasil diupdate");
                             log("Profile berhasil diupdate");

@@ -17,12 +17,12 @@ class MainBinding implements Bindings {
   void dependencies() {
     Get.put<Session>(Session());
 
-    Get.put<LoginController>(LoginController());
-    Get.put<EditUserController>(EditUserController());
-    Get.put<SignUpController>(SignUpController());
-    Get.put<HomeController>(HomeController());
-    Get.put<ProfileController>(ProfileController());
-    Get.lazyPut<MainController>(()=>MainController());
+    Get.lazyPut<LoginController>(() => LoginController());
+    Get.lazyPut<EditUserController>(() => EditUserController());
+    Get.lazyPut<SignUpController>(() => SignUpController());
+    Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<ProfileController>(() => ProfileController());
+    Get.lazyPut<MainController>(() => MainController());
   }
 
 }
