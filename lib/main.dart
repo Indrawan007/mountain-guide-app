@@ -11,8 +11,10 @@ import 'package:mountain_guide_app/UI-Pages/Login-pages/signup.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/edit-profil.dart';
 import 'package:mountain_guide_app/UI-Pages/Profil-page/profil.dart';
 import 'package:mountain_guide_app/UI-Pages/Trip-page/trip-details.dart';
+import 'package:mountain_guide_app/UI-Pages/main-page.dart';
 import 'package:mountain_guide_app/admin-guide/home-admin.dart';
 import 'package:mountain_guide_app/controller/MainController.dart';
+import 'package:mountain_guide_app/data/Session.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'binding/MainBinding.dart';
@@ -36,9 +38,10 @@ class mountainguide extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialBinding: MainBinding(),
-      initialRoute: mainController.isAuthenticated.value ? homePage : loginPage,
+      initialRoute: mainController.isAuthenticated.value ? mainPage : loginPage,
       getPages: [
         GetPage(name: homePage, page: () => HomePage()),
+        GetPage(name: mainPage, page: () => MainPage()),
         GetPage(name: loginPage, page: () => LoginPage()),
         GetPage(name: signUpPage, page: () => SignUp()),
         GetPage(name: profilePage, page: () => ProfilPage()),

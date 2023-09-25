@@ -12,10 +12,9 @@ import '../data/Session.dart';
 
 class LoginController extends GetxController {
     final user = User().obs;
-    final showPassword = false.obs;
+    final showPassword = true.obs;
     Session session = Get.find();
     CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-
 
     Future<void> login() async {
       if (user.value.email != null &&
@@ -41,7 +40,7 @@ class LoginController extends GetxController {
             if (value.size > 0) {
               var userData = value.docs.first;
               session.updateUserData(User.fromJson(userData));
-              Get.offAndToNamed(homePage);
+              Get.offAndToNamed(mainPage);
             }
           });
         } on firebaseAuth.FirebaseAuthException catch (e) {

@@ -8,8 +8,8 @@ import '../data/model/User.dart';
 
 class SignUpController extends GetxController {
   final user = User().obs;
-  final showPassword = false.obs;
-  final showConfirmPassword = false.obs;
+  final showPassword = true.obs;
+  final showConfirmPassword = true.obs;
   final isValid = false.obs;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
