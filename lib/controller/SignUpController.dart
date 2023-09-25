@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import 'package:get/get.dart';
 import '../RouteStates.dart';
+import '../data/Session.dart';
 import '../data/model/User.dart';
 
 class SignUpController extends GetxController {
   final user = User().obs;
   final showPassword = true.obs;
   final showConfirmPassword = true.obs;
+  Session session = Get.find();
   final isValid = false.obs;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -76,7 +78,17 @@ class SignUpController extends GetxController {
             'uid': credential.user?.uid?? "",
           });
           message = "Berhasil daftar akun, Silahkan login";
-          Get.offAndToNamed(homePage);
+          // Get.offAndToNamed(homePage);
+          users.where("uid",
+              isEqualTo: credential.user?.uid)
+              .get()
+              .then((value) {
+            if (value.size > 0) {
+              var userData = value.docs.first;
+              session.updateUserData(User.fromJson(userData));
+              Get.offAndToNamed(mainPage);
+            }
+          });
         } catch (e) {
           print(e);
           message = "Gagal daftar akun anda";
