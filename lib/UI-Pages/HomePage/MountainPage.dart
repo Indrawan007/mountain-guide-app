@@ -1,6 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mountain_guide_app/controller/HomeController.dart';
 
 import '../../components/card-mountain.dart';
 
@@ -9,78 +11,29 @@ class MountainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CardMountain(
-              imageUrl: 'assets/images/image1.png',
-              mountainName: 'Gunung Bawakaraeng',
-              mountainMdpl: '1080 Mdpl',
-            ),
-            CardMountain(
-              imageUrl: 'assets/images/image2.png',
-              mountainName: 'Gunung Lompobattang',
-              mountainMdpl: '1080 Mdpl',
-            ),
-          ],
+    HomeController homeController = Get.find();
+    homeController.getAllMountains();
+
+    return Obx(
+      () => GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 300,
+          childAspectRatio: 3/2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 12,
+          mainAxisExtent: 224,
         ),
-        SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CardMountain(
-              imageUrl: 'assets/images/image3.png',
-              mountainName: 'Gunung Lompobattang',
-              mountainMdpl: '1080 Mdpl',
-            ),
-            CardMountain(
-              imageUrl: 'assets/images/image4.png',
-              mountainName: 'Gunung Lompobattang',
-              mountainMdpl: '1080 Mdpl',
-            ),
-          ],
-        ),
-        SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CardMountain(
-              imageUrl: 'assets/images/image5.png',
-              mountainName: 'Gunung Lompobattang',
-              mountainMdpl: '1080 Mdpl',
-            ),
-            CardMountain(
-              imageUrl: 'assets/images/image6.png',
-              mountainName: 'Gunung Lompobattang',
-              mountainMdpl: '1080 Mdpl',
-            ),
-          ],
-        ),
-        SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Tour Guide Avaliable',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              'See All',
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff395995),
-              ),
-            ),
-          ],
-        ),
-      ],
+        itemCount: homeController.listMountains.length,
+        itemBuilder: (context, index) {
+          return CardMountain(
+            imageUrl: 'assets/images/image2.png',
+            mountainName: homeController.listMountains[index].nama ?? "",
+            mountainMdpl: homeController.listMountains[index].tinggi ?? "",
+          );
+        },
+      )
     );
   }
 }

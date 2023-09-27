@@ -1,36 +1,24 @@
 
 import 'dart:developer';
+import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:mountain_guide_app/data/model/Mountain.dart';
 import 'package:mountain_guide_app/data/model/User.dart';
 
 import '../data/Session.dart';
 
 class HomeController extends GetxController {
   Session session = Get.find();
-  var userInfo = User().obs;
-  var indexTabPages = 0.obs;
-  var indexMenu = 0.obs;
-
-  // FirebaseAuth.instance.userChanges().listen((User? user) {
-  // if (user == null) {
-  // } else {
-  // FirebaseFirestore.instance
-  //     .collection('users')
-  //     .where('uid', isEqualTo: user.uid)
-  //     .get()
-  //     .then((QuerySnapshot querySnapshot) {
-  // querySnapshot.docs.forEach((doc) {
-  // setState(() {
-  // data = doc;
-  // });
-  // });
-  // });
-  // }
-  // });
-
+  final userInfo = User().obs;
+  final indexTabPages = 0.obs;
+  final indexMenu = 0.obs;
+  final listMountains = <Mountain>[].obs;
+  CollectionReference mountainRef = FirebaseFirestore.instance.collection('mountains');
+  
   Future<void> setUserInfo() async {
     var nama = await session.readUserNama();
     var alamat = await session.readUserAlamat();
@@ -48,5 +36,21 @@ class HomeController extends GetxController {
     }
 
     log("USER info ${userInfo.value}");
+  }
+
+  Future<void> getAllMountains() async {
+    listMountains.clear();
+    mountainRef.get().then((value) {
+      for(var jsonMountain in value.docs){
+        var mountain = Mountain.fromJson(jsonMountain);
+        log("getAllMountains ${mountain.id}");
+        listMountains.add(mountain);
+      }
+
+    },
+    onError: (e) {
+      Get.snackbar("Error", "$e");
+      log("Error getAllMountains $e");
+    });
   }
 }

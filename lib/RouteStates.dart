@@ -6,6 +6,7 @@ const mainPage = "/main";
 const signUpPage = "/signUp";
 const signInPage = "/signIn";
 const loginPage = "/login";
+const detailMountainPage = "/detailMountain";
 const profilePage = "/profile";
 const listbookPage = "/listbook";
 const editProfile = "/editProfile";

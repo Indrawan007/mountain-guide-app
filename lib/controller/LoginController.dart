@@ -39,8 +39,13 @@ class LoginController extends GetxController {
               .then((value) {
             if (value.size > 0) {
               var userData = value.docs.first;
-              session.updateUserData(User.fromJson(userData));
-              Get.offAndToNamed(mainPage);
+              var user = User.fromJson(userData);
+              if(user.role == 'customer'){
+                session.updateUserData(user);
+                Get.offAndToNamed(mainPage);
+              } else {
+                Get.snackbar("Maaf", "Silahkan daftar/gunakan akun customer");
+              }
             }
           });
         } on firebaseAuth.FirebaseAuthException catch (e) {

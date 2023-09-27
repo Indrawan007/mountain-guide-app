@@ -74,6 +74,7 @@ class SignUpController extends GetxController {
             'nama': user.value.nama,
             'alamat': user.value.alamat,
             'nomor': user.value.nomor,
+            'role': 'customer',
             'email': credential.user?.email ??"",
             'uid': credential.user?.uid?? "",
           });

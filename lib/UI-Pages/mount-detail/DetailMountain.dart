@@ -5,7 +5,7 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:mountain_guide_app/UI-Pages/HomePage/HomePage.dart';
 import 'package:mountain_guide_app/components/guide-card.dart';
 
-class MountDetails extends StatelessWidget {
+class DetailMountain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

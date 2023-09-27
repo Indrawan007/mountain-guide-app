@@ -11,6 +11,7 @@ class Session {
   static const String KEY_ALAMAT = "KEY_ALAMAT";
   static const String KEY_UID = "KEY_UID";
   static const String KEY_NOMOR = "KEY_NOMOR";
+  static const String KEY_ROLE = "KEY_ROLE";
   static const String KEY_CREDENTIAL = "KEY_CREDENTIAL";
 
   Future<void> updateUserData(User user) async {
@@ -20,6 +21,7 @@ class Session {
     sharedPreferences.setString(KEY_ALAMAT, user.alamat ?? "");
     sharedPreferences.setString(KEY_UID, user.uid ?? "");
     sharedPreferences.setString(KEY_NOMOR, user.nomor ?? "");
+    sharedPreferences.setString(KEY_ROLE, user.role ?? "");
 
     // var nama = await readUserNama();
     // log("SESSION NAMA $nama");
@@ -53,6 +55,11 @@ class Session {
   Future<String?> readUserNomor() async {
     final SharedPreferences sharedPreferences = await pref;
     return sharedPreferences.getString(KEY_NOMOR);
+  }
+
+  Future<String?> readUserRole() async {
+    final SharedPreferences sharedPreferences = await pref;
+    return sharedPreferences.getString(KEY_ROLE);
   }
 
   Future<String?> readUserCredential() async {

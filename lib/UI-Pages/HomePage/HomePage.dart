@@ -98,9 +98,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                Container(
-                  child: tabPages[homeController.indexTabPages.value],
-                ),
+                // Container(
+                //   width: Get.mediaQuery.size.width,
+                //   child: tabPages[homeController.indexTabPages.value],
+                // ),
+                SizedBox(height: 18),
+                tabPages[homeController.indexTabPages.value],
                 SizedBox(height: 18),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

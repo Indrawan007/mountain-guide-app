@@ -22,7 +22,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.find();
-
     homeController.setUserInfo();
     var listPage = [HomePage(), ListBook(), ProfilPage()];
     log("nilai Index + ${homeController.indexMenu.value}");
