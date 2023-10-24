@@ -30,9 +30,10 @@ class ProfileController extends GetxController {
     var uid = await session.readUserUid();
     var email = await session.readUserEmail();
     var nomor = await session.readUserNomor();
+    var role = await session.readUserRole();
 
     userInfo(userInfo.value.copyWith(
-        nama: nama, alamat: alamat, uid: uid, email: email, nomor: nomor));
+        nama: nama, alamat: alamat, uid: uid, email: email, nomor: nomor, role: role));
     log("USER info ProfileController ${userInfo.value}");
   }
 

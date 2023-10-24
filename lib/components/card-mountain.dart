@@ -20,6 +20,7 @@ class CardMountain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
         onTap: () => Get.toNamed(detailMountainPage),
         child: Stack(

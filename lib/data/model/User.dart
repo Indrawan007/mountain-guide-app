@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mountain_guide_app/data/FirestoreModel.dart';
 
@@ -10,6 +12,7 @@ class User implements FirestoreModel {
   String? email;
   String? password;
   String? confirmPassword;
+  Timestamp? createdAt;
 
   User(
       {this.uid,
@@ -19,6 +22,7 @@ class User implements FirestoreModel {
       this.nomor,
       this.email,
       this.password,
+      this.createdAt,
       this.confirmPassword});
 
   factory User.fromFireStore(
@@ -31,6 +35,7 @@ class User implements FirestoreModel {
       email: data?['email'],
       nomor: data?['nomor'],
       uid: data?['uid'],
+      createdAt: data?['createdAt'],
     );
   }
 
@@ -43,6 +48,7 @@ class User implements FirestoreModel {
       email: data?['email'],
       nomor: data?['nomor'],
       uid: data?['uid'],
+      createdAt: data?['createdAt'],
     );
   }
 
@@ -55,6 +61,7 @@ class User implements FirestoreModel {
       if (email != null) "email": email,
       if (nomor != null) "nomor": nomor,
       if (uid != null) "uid": uid,
+      if (createdAt != null) "createdAt": createdAt,
     };
   }
 
@@ -66,6 +73,7 @@ class User implements FirestoreModel {
     String? nomor,
     String? email,
     String? password,
+    Timestamp? createdAt,
     String? confirmPassword,
   }) {
     return User(
@@ -75,6 +83,7 @@ class User implements FirestoreModel {
         alamat: alamat ?? this.alamat,
         nomor: nomor ?? this.nomor,
         email: email ?? this.email,
+        createdAt: createdAt ?? this.createdAt,
         password: password ?? this.password,
         confirmPassword: confirmPassword ?? this.confirmPassword);
   }
@@ -82,7 +91,7 @@ class User implements FirestoreModel {
   @override
   String toString() {
     // TODO: implement toString
-    return "User({uid = $uid, nama = $nama, role = $role, alamat = $alamat, nomor = $nomor, email = $email, password = $password, confirmPassword = $confirmPassword})";
+    return "User({uid = $uid, nama = $nama, role = $role, alamat = $alamat, nomor = $nomor, email = $email, password = $password, confirmPassword = $confirmPassword, createdAt = $createdAt})";
   }
 
   @override

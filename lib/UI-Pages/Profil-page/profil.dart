@@ -17,7 +17,6 @@ import 'package:mountain_guide_app/controller/ProfileController.dart';
 import '../../RouteStates.dart';
 
 class ProfilPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     ProfileController profileController = Get.find();
@@ -51,7 +50,8 @@ class ProfilPage extends StatelessWidget {
                 ),
                 SizedBox(height: 48),
                 CardName(
-                    TittleName: 'Nama', name: profileController.userInfo.value.nama ?? ""),
+                    TittleName: 'Nama',
+                    name: profileController.userInfo.value.nama ?? ""),
                 SizedBox(height: 24),
                 CardName(
                     TittleName: 'Alamat',
@@ -62,32 +62,51 @@ class ProfilPage extends StatelessWidget {
                     name: profileController.userInfo.value.nomor ?? ""),
                 SizedBox(height: 24),
                 CardName(
-                    TittleName: 'Email', name: profileController.userInfo.value.email ?? ""),
-                SizedBox(height: 35),
-                InkWell(
-                  onTap: (() {
-                    editUserController.userInfo(profileController.userInfo.value.copyWith());
-                    Get.toNamed(editProfile);
-                  }),
-                  child: Container(
-                    width: 292,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xffFFB173),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Edit Profile',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    TittleName: 'Email',
+                    name: profileController.userInfo.value.email ?? ""),
+                SizedBox(height: 24),
+                profileController.userInfo.value.role == "guider"
+                    ? Column(
+                        children: [
+                          CardName(
+                              TittleName: 'Trip',
+                              name:
+                                  profileController.userInfo.value.email ?? ""),
+                          SizedBox(height: 35),
+                        ],
+                      )
+                    : Container(),
+                profileController.userInfo.value.role != "admin"
+                    ? Column(
+                        children: [
+                          InkWell(
+                            onTap: (() {
+                              editUserController.userInfo(
+                                  profileController.userInfo.value.copyWith());
+                              Get.toNamed(editProfile);
+                            }),
+                            child: Container(
+                              width: 292,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xffFFB173),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Edit Profile',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
                 SizedBox(height: 18),
                 InkWell(
                   onTap: () => profileController.logout(),

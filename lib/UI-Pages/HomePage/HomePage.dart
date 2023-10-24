@@ -98,10 +98,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                // Container(
-                //   width: Get.mediaQuery.size.width,
-                //   child: tabPages[homeController.indexTabPages.value],
-                // ),
                 SizedBox(height: 18),
                 tabPages[homeController.indexTabPages.value],
                 SizedBox(height: 18),

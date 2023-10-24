@@ -2,21 +2,58 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../RouteStates.dart';
 import '../data/Session.dart';
+import '../data/model/Mountain.dart';
 import '../data/model/User.dart';
 
 class SignUpController extends GetxController {
   final user = User().obs;
+  final mountain = Mountain().obs;
   final showPassword = true.obs;
   final showConfirmPassword = true.obs;
   Session session = Get.find();
   final isValid = false.obs;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference mountains = FirebaseFirestore.instance.collection('mountains');
 
   updateUser(User newUser) {
     user(newUser);
+  }
+
+  updateMountain(Mountain mountain){
+    this.mountain(mountain.copyWith(image: ""));
+  }
+
+  String? validateMountain(Mountain mountain){
+    isValid(false);
+    if(mountain.nama == null || mountain.nama?.isEmpty== true || mountain.nama.isBlank == true){
+      return "Nama Tidak Boleh Kosong";
+    }
+
+    if(mountain.lokasi == null || mountain.lokasi?.isEmpty== true || mountain.lokasi.isBlank == true){
+      return "Alamat Tidak Boleh Kosong";
+    }
+
+    if(mountain.ket == null || mountain.ket?.isEmpty== true || mountain.ket.isBlank == true){
+      return "Nomor Tidak Boleh Kosong";
+    }
+
+    if(mountain.tinggi == null || mountain.tinggi?.isEmpty== true || mountain.tinggi.isBlank == true ){
+      return "Format tinggi  Boleh Kosong";
+    }
+
+    if(
+    mountain.nama != null || mountain.nama?.isEmpty== false || mountain.nama.isBlank == false ||
+        mountain.lokasi != null || mountain.lokasi?.isEmpty== false || mountain.lokasi.isBlank == false ||
+        mountain.ket != null || mountain.ket?.isEmpty== false || mountain.ket.isBlank == false ||
+        mountain.tinggi != null || mountain.tinggi?.isEmpty== false || mountain.tinggi.isBlank == false
+    ){
+      isValid(true);
+      return null;
+    }
   }
 
   String? validateUser(User newUser){
@@ -58,7 +95,26 @@ class SignUpController extends GetxController {
     }
   }
 
-  Future<void> signUp()async {
+  Future<void> registerMountain() async {
+    String message = "";
+    var validatorInput = validateMountain(mountain.value.copyWith());
+
+    if(isValid.value == true){
+      try {
+        await mountains.add(mountain.value.toFirestore());
+        message = "Data berhasil ditambahkan";
+        Get.snackbar('${mountain.value.nama}', message);
+        // Get.back();
+      } catch(e){
+        Get.snackbar('Maaf', "$e");
+      }
+    }
+    if(validatorInput != null){
+      Get.snackbar('Maaf', "$validatorInput");
+    }
+  }
+
+  Future<void> signUp({bool asGuider = false})async {
     String message = "";
     var validatorResponse = validateUser(user.value.copyWith());
 
@@ -74,22 +130,29 @@ class SignUpController extends GetxController {
             'nama': user.value.nama,
             'alamat': user.value.alamat,
             'nomor': user.value.nomor,
-            'role': 'customer',
+            'role': asGuider==true ? 'guider' : 'customer',
             'email': credential.user?.email ??"",
             'uid': credential.user?.uid?? "",
+            'createdAt' : DateTime.now()
           });
           message = "Berhasil daftar akun, Silahkan login";
           // Get.offAndToNamed(homePage);
-          users.where("uid",
-              isEqualTo: credential.user?.uid)
-              .get()
-              .then((value) {
-            if (value.size > 0) {
-              var userData = value.docs.first;
-              session.updateUserData(User.fromJson(userData));
-              Get.offAndToNamed(mainPage);
-            }
-          });
+
+          if(asGuider != true){
+            users.where("uid",
+                isEqualTo: credential.user?.uid)
+                .get()
+                .then((value) {
+              if (value.size > 0) {
+                var userData = value.docs.first;
+                session.updateUserData(User.fromJson(userData));
+                isValid(false);
+                Get.offAndToNamed(mainPage);
+              }
+            });
+          } else {
+            Get.snackbar("Tour Guider", "Berhasil Terdaftar");
+          }
         } catch (e) {
           print(e);
           message = "Gagal daftar akun anda";
@@ -102,10 +165,10 @@ class SignUpController extends GetxController {
         } else if (e.code == 'invalid-email') {
           message = "Email tidak Valid";
         }
-
         Get.snackbar('Maaf', message);
       } catch (e) {
         print(e);
+        Get.snackbar('Maaf', "$e");
       }
     } else {
       Get.snackbar('Maaf', '$validatorResponse');

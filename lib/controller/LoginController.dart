@@ -40,14 +40,11 @@ class LoginController extends GetxController {
             if (value.size > 0) {
               var userData = value.docs.first;
               var user = User.fromJson(userData);
-              if(user.role == 'customer'){
-                session.updateUserData(user);
-                Get.offAndToNamed(mainPage);
-              } else {
-                Get.snackbar("Maaf", "Silahkan daftar/gunakan akun customer");
-              }
+              session.updateUserData(user);
+              Get.offAndToNamed(mainPage);
             }
           });
+
         } on firebaseAuth.FirebaseAuthException catch (e) {
           if (e.code == 'user-not-found') {
             Get.snackbar("Maaf", "Email belum terdaftar");

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
@@ -37,15 +39,7 @@ class DetailMountain extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            HomePage(),
-                                    transitionDuration: Duration(seconds: 0),
-                                  ),
-                                );
+                                Get.back();
                               },
                               child: Icon(
                                 Icons.arrow_back,
